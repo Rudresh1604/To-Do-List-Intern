@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { Todo } from "./model";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { MdDone } from "react-icons/md";
+import { Todo } from "../../model";
+import FormInput from "../FormInput";
+import FormIcon from "../Icon";
 
-interface Props {
+interface ListItemProps {
   Todo: Todo;
   allTask: Todo[];
   setAllTask: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
-const SingleTodo: React.FC<Props> = ({ Todo, allTask, setAllTask }) => {
+const ListItem: React.FC<ListItemProps> = ({ Todo, allTask, setAllTask }) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [editName, setEditName] = useState<string>(Todo.name);
   const handleDone = (id: number) => {
@@ -35,38 +37,39 @@ const SingleTodo: React.FC<Props> = ({ Todo, allTask, setAllTask }) => {
   return (
     <form className="todo-single" onSubmit={(e) => handleEdit(e, Todo.id)}>
       {isEdit ? (
-        <input
+        <FormInput
+          type="text"
           className="edit-input"
           value={editName}
-          onChange={(e) => setEditName(e.target.value)}
+          onChange={(e) => {
+            setEditName(e.target.value);
+          }}
         />
       ) : (
         <span className="todo-single-head">{Todo.name}</span>
       )}
 
       <div className="todo-single-body">
-        <span
+        <FormIcon
           className="icon"
-          onClick={() => {
-            setIsEdit(!isEdit);
-          }}
-        >
-          <AiFillEdit />
-        </span>
-        <span className="icon" onClick={() => handleDelete(Todo.id)}>
-          <AiFillDelete />
-        </span>
-        <span
+          onClick={() => setIsEdit(!isEdit)}
+          Icon={<AiFillEdit />}
+        />
+        <FormIcon
+          className="icon"
+          onClick={() => handleDelete(Todo.id)}
+          Icon={<AiFillDelete />}
+        />
+        <FormIcon
           className="icon"
           onClick={() => {
             handleDone(Todo.id);
           }}
-        >
-          <MdDone />
-        </span>
+          Icon={<MdDone />}
+        />
       </div>
     </form>
   );
 };
 
-export default SingleTodo;
+export default ListItem;

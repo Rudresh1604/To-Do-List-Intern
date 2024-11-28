@@ -1,18 +1,18 @@
-import React from "react";
-import { Todo } from "./model";
-import SingleTodo from "./SingleTodo";
+import React, { FC } from "react";
+import { Todo } from "../../model";
+import ListItem from "../../base/ListItem";
 
-interface Props {
+interface ListProps {
   allTask: Todo[];
   setAllTask: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
-const TodoList: React.FC<Props> = ({ allTask, setAllTask }) => {
+const List: FC<ListProps> = ({ allTask, setAllTask }) => {
   return (
     <div className="todos">
       {allTask?.map((task) =>
         task.isFinish ? null : (
-          <SingleTodo
+          <ListItem
             key={task.id}
             Todo={task}
             allTask={allTask}
@@ -24,4 +24,4 @@ const TodoList: React.FC<Props> = ({ allTask, setAllTask }) => {
   );
 };
 
-export default TodoList;
+export default List;

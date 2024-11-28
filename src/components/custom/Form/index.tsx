@@ -1,4 +1,6 @@
 import React, { useRef } from "react";
+import Button from "../../base/FormButton";
+import FormInput from "../../base/FormInput";
 
 interface Props {
   todo: string;
@@ -6,7 +8,7 @@ interface Props {
   handleAdd: (e: React.FormEvent) => void;
 }
 
-const InputForm: React.FC<Props> = ({ todo, setTodo, handleAdd }) => {
+const Form: React.FC<Props> = ({ todo, setTodo, handleAdd }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   return (
     <div className="">
@@ -17,7 +19,7 @@ const InputForm: React.FC<Props> = ({ todo, setTodo, handleAdd }) => {
           inputRef.current?.blur();
         }}
       >
-        <input
+        <FormInput
           ref={inputRef}
           className="form-item input-form"
           placeholder="Enter a task"
@@ -27,12 +29,10 @@ const InputForm: React.FC<Props> = ({ todo, setTodo, handleAdd }) => {
             setTodo(e.target.value);
           }}
         />
-        <button className="button form-item-button" type="submit">
-          Add{" "}
-        </button>
+        <Button type="submit" name="Add" disabled={false} onClick={handleAdd} />
       </form>
     </div>
   );
 };
 
-export default InputForm;
+export default Form;

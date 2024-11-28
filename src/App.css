@@ -7,8 +7,8 @@
   font-family: "Roboto", sans-serif;
   font-weight: 400;
   font-style: normal;
-  width: 100vh;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   margin-left: 30px;
 }
 
@@ -36,11 +36,16 @@
   font-weight: bold;
   border: none;
   padding: 20px;
+  border-left: none;
+  border-bottom: none;
+  border-top: none;
   border-radius: 50px;
 }
 .form-item-button {
   position: absolute;
-  right: 20px;
+  left: 273px;
+  bottom: 8px;
+  background-color: rgb(122, 220, 122);
 }
 
 /* single todo */
