@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-
 interface ButtonProps {
   className?: string;
   type: string;
@@ -16,9 +15,9 @@ const Button: FC<ButtonProps> = ({
   disabled,
 }) => {
   return (
-    <div>
+    <div className="flex justify-center">
       <button
-        className={`button form-item-button ${className}`}
+        className={`p-2 px-5 text-base mt-3 rounded border-none cursor-pointer ${className} `}
         type="button"
         onClick={onClick}
         disabled={disabled}
@@ -29,4 +28,5 @@ const Button: FC<ButtonProps> = ({
   );
 };
 
+// ${disabled ? "bg-gray-400 cursor-not-allowed" : "bg-gray-700 text-white hover:bg-gray-800 hover:-translate-y-1}
 export default Button;

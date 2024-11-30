@@ -20,6 +20,7 @@ const HomeView: FC<HomeViewProps> = ({
 }) => {
   return (
     <div>
+      <h1>To Do List</h1>
       <div>
         <Form todo={todo} setTodo={setTodo} handleAdd={handleAdd} />
       </div>

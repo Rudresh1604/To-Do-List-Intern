@@ -29,7 +29,13 @@ const Form: React.FC<Props> = ({ todo, setTodo, handleAdd }) => {
             setTodo(e.target.value);
           }}
         />
-        <Button type="submit" name="Add" disabled={false} onClick={handleAdd} />
+        <Button
+          type="submit"
+          className="button form-item-button "
+          name="Add"
+          disabled={false}
+          onClick={handleAdd}
+        />
       </form>
     </div>
   );

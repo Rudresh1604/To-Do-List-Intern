@@ -12,7 +12,7 @@ interface FormInputProps {
   name?: string;
   ref?: React.RefObject<HTMLInputElement>;
   className?: string;
-  value?: string;
+  value?: string | null;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -32,7 +32,7 @@ const FormInput: React.FC<FormInputProps> = ({
         className={className}
         placeholder={placeholder}
         type={type}
-        value={value}
+        value={value ? value : ""}
         name={name}
         onChange={onChange}
       />
