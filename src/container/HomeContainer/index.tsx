@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { Todo } from "../../components/model";
+import Cookies from "js-cookie";
 import HomeView from "../../views/HomeView";
 import { auth, db } from "../../utils/Firebase";
 import { doc, getDoc } from "firebase/firestore";
@@ -17,11 +18,21 @@ const HomeContainer: FC = () => {
     }
     setTodo("");
   };
+  useEffect(() => {
+    try {
+      const token = Cookies.get("access_token");
+      if (!token) {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   const fetchDetails: () => void = async () => {
     auth.onAuthStateChanged(async (user: any) => {
       console.log(user);
-      const docRef = doc(db, "Users", user.uid);
+      const docRef = doc(db, "Users", user?.uid);
       const docsnap = await getDoc(docRef);
       if (docsnap.exists()) {
         console.log(docsnap.data());
@@ -34,6 +45,7 @@ const HomeContainer: FC = () => {
   const handleLogout: () => void = async () => {
     try {
       await auth.signOut();
+      Cookies.remove("access_token");
       toast.success("Logout Successfully");
       navigate("/login");
     } catch (error: any) {
@@ -51,6 +63,7 @@ const HomeContainer: FC = () => {
         todo={todo}
         handleAdd={handleAdd}
         setTodo={setTodo}
+        handleLogout={handleLogout}
         allTask={allTask}
         setAllTask={setAllTask}
       />

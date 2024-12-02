@@ -7,6 +7,7 @@ interface HomeViewProps {
   todo: string;
   setTodo: React.Dispatch<React.SetStateAction<string>>;
   handleAdd: (e: React.FormEvent) => void;
+  handleLogout?: (e: React.FormEvent) => void;
   allTask: Todo[];
   setAllTask: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
@@ -16,11 +17,17 @@ const HomeView: FC<HomeViewProps> = ({
   allTask,
   setAllTask,
   setTodo,
+  handleLogout,
   handleAdd,
 }) => {
   return (
     <div>
-      <h1>To Do List</h1>
+      <div className="flex ">
+        <h1 className="text-4xl text-center">To Do List</h1>
+        <span className="text-2xl m-2" onClick={handleLogout}>
+          Logout
+        </span>
+      </div>
       <div>
         <Form todo={todo} setTodo={setTodo} handleAdd={handleAdd} />
       </div>

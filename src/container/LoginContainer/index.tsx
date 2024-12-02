@@ -1,6 +1,6 @@
-import axios from "axios";
 import React, { FC, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 import "react-toastify/dist/ReactToastify.css";
 import LoginView from "../../views/LoginView";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -12,6 +12,18 @@ const LoginContainer: FC = () => {
   const [email, setEmail] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    try {
+      const token = Cookies.get("access_token");
+      if (token) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
@@ -23,9 +35,11 @@ const LoginContainer: FC = () => {
     try {
       setLoading(true);
       await signInWithEmailAndPassword(auth, email, password);
+
       const user = auth.currentUser;
       if (user) {
         console.log("User login successfully !");
+        Cookies.set("access_token", user?.accessToken);
       }
       toast.success("User login successfully !", { position: "top-center" });
       setLoading(false);
