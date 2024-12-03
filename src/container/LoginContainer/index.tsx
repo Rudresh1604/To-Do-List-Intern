@@ -39,9 +39,13 @@ const LoginContainer: FC = () => {
       const user = auth.currentUser;
       if (user) {
         console.log("User login successfully !");
+        toast("User login successfully !", {
+          position: "bottom-center",
+          delay: 0,
+        });
         Cookies.set("access_token", user?.accessToken);
       }
-      toast.success("User login successfully !", { position: "top-center" });
+
       setLoading(false);
       navigate("/");
     } catch (error: any) {

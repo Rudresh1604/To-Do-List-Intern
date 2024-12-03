@@ -26,8 +26,8 @@ const RegisterContainer: FC = () => {
       setLoading(true);
       await createUserWithEmailAndPassword(auth, email, password);
       const user = auth.currentUser;
-      console.log(user);
-      console.log("User registered succesfully !");
+      // console.log(user);
+      // console.log("User registered succesfully !");
       if (user) {
         await setDoc(doc(db, "Users", user.uid), {
           email: user.email,
@@ -41,7 +41,7 @@ const RegisterContainer: FC = () => {
       toast.success("Registered successfully !", { position: "top-center" });
       navigate("/login");
     } catch (error: any) {
-      console.log(error);
+      // console.log(error);
       toast.error(error.message, { position: "top-center" });
       setLoading(false);
       setEmail(null);

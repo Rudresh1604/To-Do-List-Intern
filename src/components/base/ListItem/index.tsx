@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { MdDone } from "react-icons/md";
 import { Todo } from "../../model";
@@ -33,6 +33,9 @@ const ListItem: React.FC<ListItemProps> = ({ Todo, allTask, setAllTask }) => {
     );
     setIsEdit(false);
   };
+  useEffect(() => {
+    console.log(allTask);
+  }, [allTask]);
 
   return (
     <form className="todo-single" onSubmit={(e) => handleEdit(e, Todo.id)}>

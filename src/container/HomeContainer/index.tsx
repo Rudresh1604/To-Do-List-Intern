@@ -2,8 +2,9 @@ import { FC, useEffect, useState } from "react";
 import { Todo } from "../../components/model";
 import Cookies from "js-cookie";
 import HomeView from "../../views/HomeView";
+import "react-toastify/dist/ReactToastify.css";
 import { auth, db } from "../../utils/Firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 
@@ -13,10 +14,11 @@ const HomeContainer: FC = () => {
   const [todo, setTodo] = useState<string>("");
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
-    if (todo) {
+    console.log(todo);
+    if (todo.trim() !== "") {
       setAllTask([...allTask, { id: Date.now(), name: todo, isFinish: false }]);
+      setTodo("");
     }
-    setTodo("");
   };
   useEffect(() => {
     try {
@@ -29,15 +31,44 @@ const HomeContainer: FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    addTaskinDB();
+  }, [allTask]);
+
+  const addTaskinDB: () => Promise<void> = async () => {
+    try {
+      const user = auth.currentUser;
+
+      if (user) {
+        // console.log(allTask);
+        await setDoc(doc(db, "Users", user.uid), {
+          allTask: allTask,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast("Cannot add task permanently");
+    }
+  };
+
   const fetchDetails: () => void = async () => {
     auth.onAuthStateChanged(async (user: any) => {
-      console.log(user);
-      const docRef = doc(db, "Users", user?.uid);
-      const docsnap = await getDoc(docRef);
-      if (docsnap.exists()) {
-        console.log(docsnap.data());
-      } else {
-        console.log("User is not loggin");
+      if (user) {
+        const docRef = doc(db, "Users", user.uid);
+        const docsnap = await getDoc(docRef);
+
+        if (docsnap.exists()) {
+          const data: any = docsnap.data();
+          // console.log("Document data:", data);
+
+          if (Array.isArray(data.allTask)) {
+            // console.log("All Tasks:", data.allTask);
+            setAllTask(data.allTask);
+          }
+        } else {
+          toast("No tasks to display ");
+          console.log("User document does not exist.");
+        }
       }
     });
   };
